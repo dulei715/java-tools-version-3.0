@@ -1,7 +1,7 @@
 package cn.edu.dll.basic;
 
 
-import cn.edu.dll.basic.cumulate.CumulativeFunction;
+import cn.edu.dll.math.cumulate.CumulativeFunction;
 
 import java.util.*;
 

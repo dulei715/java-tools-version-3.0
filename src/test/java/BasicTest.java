@@ -1,5 +1,5 @@
 import cn.edu.dll.basic.BasicArrayUtil;
-import cn.edu.dll.differential_privacy.ldp.consistent.Normalization;
+import cn.edu.dll.math.differential_privacy.ldp.consistent.Normalization;
 import cn.edu.dll.io.print.MyPrint;
 import org.junit.Test;
 

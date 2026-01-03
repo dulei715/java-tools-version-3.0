@@ -2,7 +2,7 @@ package cn.edu.dll.basic;
 
 
 import cn.edu.dll.io.print.MyPrint;
-import cn.edu.dll.round.DecimalTool;
+import cn.edu.dll.math.round.DecimalTool;
 import cn.edu.dll.struct.pair.BasicPair;
 
 import java.lang.reflect.Array;
@@ -350,10 +350,10 @@ public class BasicArrayUtil {
         double value;
         int i;
         for (value = startValue, i = 0; value <= maxValue; value += step, i++) {
-            result[i] = DecimalTool.round(value, precision);
+            result[i] = DecimalTool.getPrecisionValue(value, precision);
         }
         if (i < size) {
-            result[i] = DecimalTool.round(maxValue, precision);
+            result[i] = DecimalTool.getPrecisionValue(maxValue, precision);
         }
         return result;
     }
