@@ -93,4 +93,12 @@ public class MapUtils {
         return result;
     }
 
+    public static <K> Map<K, K> getSelfMap(Collection<K> data) {
+        Map<K, K> resultMap = new HashMap<>(data.size());
+        for (K datum : data) {
+            resultMap.put(datum, datum);
+        }
+        return resultMap;
+    }
+
 }
