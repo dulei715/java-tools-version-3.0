@@ -10,5 +10,18 @@ import java.util.Map;
 import java.util.Set;
 
 public abstract class Graph <T extends Edge> {
+    protected Set<Node> nodeSet;
+
+    public Graph() {
+        this.nodeSet = new HashSet<>();
+    }
+
+    public Set<Node> getNodeSet() {
+        return nodeSet;
+    }
+
     public abstract Map<Node, Map<Node, T>> getAdjacentMap();
+
+    public abstract Set<T> getEdgeSet();
+
 }
