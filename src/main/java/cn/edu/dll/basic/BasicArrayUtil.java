@@ -810,6 +810,22 @@ public class BasicArrayUtil {
         }
         return resultValue;
     }
+    public static BasicPair<Integer, Double> getDoubleMaxPair(List<Double> list) {
+        if (list.isEmpty()) {
+            return null;
+        }
+        int index = 0;
+        double resultValue = list.get(index);
+        double temp;
+        for (int i = 1; i < list.size(); ++i) {
+            temp = list.get(i);
+            if (resultValue < temp) {
+                resultValue = temp;
+                index = i;
+            }
+        }
+        return new BasicPair<>(index, resultValue);
+    }
 
     public static Integer getIntegerMaxValue(List<Integer> list) {
         if (list.isEmpty()) {
