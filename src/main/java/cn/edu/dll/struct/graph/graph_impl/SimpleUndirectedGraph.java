@@ -12,6 +12,7 @@ public class SimpleUndirectedGraph extends Graph<UndirectedEdge> {
 
 
     protected Set<UndirectedEdge> edgeSet;
+    // 所有的edge只出现一次
     protected Map<Node, Map<Node, UndirectedEdge>> adjacentMap;
 
     public SimpleUndirectedGraph() {
@@ -82,6 +83,8 @@ public class SimpleUndirectedGraph extends Graph<UndirectedEdge> {
             this.addEdge(newEdge);
         }
     }
+
+
 
     public Set<Node> getNodeSet() {
         return nodeSet;

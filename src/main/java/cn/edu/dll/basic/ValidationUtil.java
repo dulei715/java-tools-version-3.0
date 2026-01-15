@@ -58,4 +58,11 @@ public final class ValidationUtil {
         return value;
 
     }
+
+    public static <T extends Comparable<T>> boolean requireNoMoreThan(T dataA, T dataB, String message) {
+        if (dataA == null || dataB == null || dataA.compareTo(dataB) > 0) {
+            throw new IllegalArgumentException(message);
+        }
+        return true;
+    }
 }

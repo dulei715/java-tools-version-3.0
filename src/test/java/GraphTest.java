@@ -1,4 +1,5 @@
 import cn.edu.dll.io.print.MyPrint;
+import cn.edu.dll.struct.graph.Community;
 import cn.edu.dll.struct.graph.Node;
 import cn.edu.dll.struct.graph.edge_impl.DirectedEdge;
 import cn.edu.dll.struct.graph.edge_impl.UndirectedEdge;
@@ -97,5 +98,32 @@ public class GraphTest {
         MyPrint.showSplitLine("*", 150);
         graphA.combineGraph(graphB);
         GraphTools.showGraph(graphA);
+    }
+
+    @Test
+    public void communityTest() {
+        Community communityA = new Community(1L, nodeList.get(0));
+        communityA.addNode(nodeList.get(1));
+        Community communityB = new Community(2L, nodeList.get(2));
+        communityB.addNode(nodeList.get(3));
+
+        System.out.println(communityA);
+        System.out.println(communityB);
+
+        communityA.combineCommunity(communityB);
+        System.out.println(communityA);
+        System.out.println(communityB);
+    }
+    @Test
+    public void communityTest2() {
+        Community communityA = new Community(1L, nodeList.get(0));
+        communityA.addNode(nodeList.get(1));
+        Community communityB = new Community(2L, nodeList.get(2));
+        communityB.addNode(nodeList.get(3));
+        Community combineCommunity = Community.getCombineCommunity(3L, communityA, communityB);
+
+        System.out.println(communityA);
+        System.out.println(communityB);
+        System.out.println(combineCommunity);
     }
 }

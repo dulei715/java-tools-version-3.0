@@ -1,4 +1,5 @@
 import cn.edu.dll.basic.BasicArrayUtil;
+import cn.edu.dll.basic.ValidationUtil;
 import cn.edu.dll.math.differential_privacy.ldp.consistent.Normalization;
 import cn.edu.dll.io.print.MyPrint;
 import org.junit.Test;
@@ -17,7 +18,13 @@ public class BasicTest {
         System.out.println(Objects.equals(set2, set3)); // true
     }
 
-
+    @Test
+    public void requireNoMoreThanTest() {
+        Integer dataA = 46;
+        Integer dataB = 46;
+        boolean result = ValidationUtil.requireNoMoreThan(dataA, dataB, "dataA needs to be no more than dataB!");
+        System.out.println(result);
+    }
 
 
 }

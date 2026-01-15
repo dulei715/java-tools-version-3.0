@@ -30,4 +30,11 @@ public abstract class Node implements Comparable<Node> {
     public int compareTo(Node nodeB) {
         return this.nodeID.compareTo(nodeB.nodeID);
     }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "nodeID=" + nodeID +
+                '}';
+    }
 }
