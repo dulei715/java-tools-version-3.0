@@ -60,6 +60,10 @@ public class SimpleUndirectedGraph extends Graph<UndirectedEdge> {
 
     }
 
+    public Map<Node, UndirectedEdge> getNeighboring(Node node) {
+        return this.adjacentMap.get(node);
+    }
+
 
     /**
      * 将给定的graph合并到本graph中，边权重相加

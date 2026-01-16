@@ -27,6 +27,14 @@ public class Community implements Comparable<Community> {
         this.nodeSet.add(node);
     }
 
+    public boolean remove(Node node) {
+        return this.nodeSet.remove(node);
+    }
+
+    public boolean contains(Node node) {
+        return this.nodeSet.contains(node);
+    }
+
     public void combineCommunity(Community community) {
         this.nodeSet.addAll(community.nodeSet);
     }

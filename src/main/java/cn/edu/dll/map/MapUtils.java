@@ -1,5 +1,7 @@
 package cn.edu.dll.map;
 
+import cn.edu.dll.basic.ValidationUtil;
+
 import java.util.*;
 
 public class MapUtils {
@@ -92,11 +94,34 @@ public class MapUtils {
         }
         return result;
     }
+    public static <K> Map<K, Integer> getInitializedMap(Collection<K> keyCollection, Integer startValue, Integer step) {
+        Map<K, Integer> result = new HashMap<>();
+        Integer tempValue = startValue;
+        for (K key : keyCollection) {
+            result.put(key, tempValue);
+            tempValue += step;
+        }
+        return result;
+    }
 
     public static <K> Map<K, K> getSelfMap(Collection<K> data) {
         Map<K, K> resultMap = new HashMap<>(data.size());
         for (K datum : data) {
             resultMap.put(datum, datum);
+        }
+        return resultMap;
+    }
+
+    public static <K, V> Map<K, V> generateMapByKVList(List<K> kList, List<V> vList) {
+        Integer size = kList.size();
+        ValidationUtil.requireEqual(kList, vList.size(), "The sizes of these two lists are not equal!");
+        Map<K, V> resultMap = new HashMap<>(size);
+        K key;
+        V value;
+        for (int i = 0; i < size; i++) {
+            key = kList.get(i);
+            value = vList.get(i);
+            resultMap.put(key, value);
         }
         return resultMap;
     }

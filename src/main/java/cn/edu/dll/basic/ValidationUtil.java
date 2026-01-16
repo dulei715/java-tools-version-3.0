@@ -65,4 +65,11 @@ public final class ValidationUtil {
         }
         return true;
     }
+
+    public static <T> boolean requireEqual(T dataA, T dataB, String message) {
+        if (dataA == null || !dataA.equals(dataB)) {
+            throw new IllegalArgumentException(message);
+        }
+        return true;
+    }
 }
