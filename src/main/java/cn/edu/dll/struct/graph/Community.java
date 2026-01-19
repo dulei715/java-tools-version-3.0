@@ -52,6 +52,7 @@ public class Community implements Comparable<Community> {
 
     public Set<Node> getNodeSet() {
         return nodeSet;
+
     }
 
 
