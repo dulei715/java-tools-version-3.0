@@ -10,7 +10,9 @@ import cn.edu.dll.struct.graph.utils.GraphTools;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 public class GraphTest {
@@ -74,6 +76,36 @@ public class GraphTest {
 
         MyPrint.showSplitLine("*", 150);
         graphA.combineGraph(graphB);
+        GraphTools.showGraph(graphA);
+    }
+    @Test
+    public void undirectedGraphWithLimitTest() {
+        SimpleUndirectedGraph graphA = new SimpleUndirectedGraph();
+        for (int i = 0; i < 4; i++) {
+            graphA.addEdge(undirectedEdgeList.get(i));
+        }
+        SimpleUndirectedGraph graphB = new SimpleUndirectedGraph();
+        for (int i = 4; i < undirectedEdgeList.size(); i++) {
+             graphB.addEdge(undirectedEdgeList.get(i));
+
+        }
+        List<Node> limitNodeList = Arrays.asList(
+                nodeList.get(0), nodeList.get(2), nodeList.get(3),
+                new SimpleNode(12), new SimpleNode(15)
+        );
+        MyPrint.showSplitLine("*", 150);
+        GraphTools.showGraph(graphA);
+
+
+        MyPrint.showSplitLine("*", 150);
+        GraphTools.showGraph(graphB);
+
+        MyPrint.showSplitLine("*", 150);
+        MyPrint.showCollection(limitNodeList, "; ");
+
+        MyPrint.showSplitLine("*", 150);
+
+        graphA.combineGraph(graphB, new HashSet<>(limitNodeList));
         GraphTools.showGraph(graphA);
     }
 

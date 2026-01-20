@@ -43,6 +43,11 @@ public class SimpleUndirectedGraph extends Graph<UndirectedEdge> {
         edge.setValue(edge.getValue() + increasedValue);
     }
 
+    public void addNode(Node node) {
+        super.nodeSet.add(node);
+        this.adjacentMap.computeIfAbsent(node, k -> new HashMap<>());
+    }
+
     public void addEdge(UndirectedEdge edge) {
         Iterator<Node> iterator = edge.getNodeSet().iterator();
         Node nodeA = iterator.next();
@@ -76,6 +81,7 @@ public class SimpleUndirectedGraph extends Graph<UndirectedEdge> {
         Set<UndirectedEdge> realAddedEdgeSet = new HashSet<>();
         UndirectedEdge originalEdge;
         for (UndirectedEdge edge : addedEdgeSet) {
+            // 用新加入的edg定位原始的edge
             originalEdge = currentEdgeSelfMap.get(edge);
             if (originalEdge == null) {
                 realAddedEdgeSet.add(edge);
@@ -88,6 +94,38 @@ public class SimpleUndirectedGraph extends Graph<UndirectedEdge> {
         }
     }
 
+    /**
+     * 将给定graph合并到本graph中，权重相加，limitNodeSet
+     * 如果limitNodeSet里的节点没有在graph中出现，则添加孤立的节点
+     * @param graph
+     * @param limitNodeSet
+     */
+    public void combineGraph(SimpleUndirectedGraph graph, final Set<Node> limitNodeSet) {
+        Set<UndirectedEdge> addedEdgeSet = graph.getEdgeSet();
+        Map<UndirectedEdge, UndirectedEdge> currentEdgeSelfMap = MapUtils.getSelfMap(this.getEdgeSet());
+        Set<Node> remainLimitNodeSet = new HashSet<>(limitNodeSet), currentEdgeNodeSet;
+        Set<UndirectedEdge> realAddedEdgeSet = new HashSet<>();
+        UndirectedEdge originalEdge;
+        for (UndirectedEdge edge : addedEdgeSet) {
+            currentEdgeNodeSet = edge.getNodeSet();
+            if (!limitNodeSet.containsAll(currentEdgeNodeSet)) {
+                continue;
+            }
+            remainLimitNodeSet.removeAll(currentEdgeNodeSet);
+            originalEdge = currentEdgeSelfMap.get(edge);
+            if (originalEdge == null) {
+                realAddedEdgeSet.add(edge);
+            } else {
+                originalEdge.setValue(originalEdge.getValue() + edge.getValue());
+            }
+        }
+        for (UndirectedEdge newEdge : realAddedEdgeSet) {
+            this.addEdge(newEdge);
+        }
+        for (Node node : remainLimitNodeSet) {
+            this.addNode(node);
+        }
+    }
 
 
     public Set<Node> getNodeSet() {
