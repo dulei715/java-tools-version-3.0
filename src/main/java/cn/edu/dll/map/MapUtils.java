@@ -1,6 +1,8 @@
 package cn.edu.dll.map;
 
+import cn.edu.dll.basic.StringUtil;
 import cn.edu.dll.basic.ValidationUtil;
+import cn.edu.dll.constant_values.ConstantValues;
 
 import java.util.*;
 
@@ -28,6 +30,31 @@ public class MapUtils {
         rawMap.computeIfAbsent(rawKey, k -> new HashMap<>()).put(innerKey, value);
     }
 
+    public static <K, P, V> V getTwoIndexValueOrDefault(Map<K, Map<P, V>> rawMap, K rawKey, P innerKey, V defaultValue) {
+        Map<P, V> innerMap = rawMap.get(rawKey);
+        if (innerMap == null) {
+            return defaultValue;
+        }
+        V value = innerMap.get(innerKey);
+        if (value == null) {
+            return defaultValue;
+        }
+        return value;
+    }
+
+    public static <K, P> void shrink(Map<K, Map<P, Integer>> rawMap, Integer shrinkNumber) {
+        for (Map.Entry<K, Map<P, Integer>> entry : rawMap.entrySet()) {
+            K key = entry.getKey();
+            Map<P, Integer> innerMap = entry.getValue();
+            for (Map.Entry<P, Integer> innerEntry : innerMap.entrySet()) {
+                P innerKey = innerEntry.getKey();
+                Integer value = innerEntry.getValue();
+                value /= shrinkNumber;
+                innerMap.put(innerKey, value);
+            }
+        }
+    }
+
     public static <K, P, V> void addMapAsValue(Map<K, Map<P, Set<V>>> rawMap, K rawKey, P innerKey, V value) {
         Map<P, Set<V>> innerMap = rawMap.get(rawKey);
         if (innerMap == null) {
@@ -35,6 +62,32 @@ public class MapUtils {
             rawMap.put(rawKey, innerMap);
         }
         putInSetValue(innerMap, innerKey, value);
+    }
+
+    public static  <K, P, V> String getTwoIndexMapString(Map<K, Map<P, V>> data) {
+        StringBuilder stringBuilder = new StringBuilder();
+        Integer outerSize = data.size(), innerSize, outerIndex = 0, innerIndex;
+        for (Map.Entry<K, Map<P, V>> entry : data.entrySet()) {
+            ++outerIndex;
+            K key = entry.getKey();
+            Map<P, V> innerMap = entry.getValue();
+            innerSize = innerMap.size();
+            innerIndex = 0;
+            for (Map.Entry<P, V> innerEntry : innerMap.entrySet()) {
+                ++innerIndex;
+                P innerKey = innerEntry.getKey();
+                V value = innerEntry.getValue();
+                if (innerIndex == innerSize) {
+                    stringBuilder.append(String.format("(%s, %s)->%s", key, innerKey, value));
+                    if (outerIndex < outerSize) {
+                        stringBuilder.append(ConstantValues.LINE_SPLIT);
+                    }
+                } else {
+                    stringBuilder.append(String.format("(%s, %s)->%s; ", key, innerKey, value));
+                }
+            }
+        }
+        return stringBuilder.toString();
     }
 
     /**
@@ -125,5 +178,8 @@ public class MapUtils {
         }
         return resultMap;
     }
+
+
+
 
 }

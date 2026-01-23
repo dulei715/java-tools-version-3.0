@@ -75,7 +75,7 @@ public class StringUtil {
         return resultStringList;
     }
 
-    public static String[] concatGiveString(String[] strArray, String... addStrs) {
+    public static String[] concatGivenString(String[] strArray, String... addStrs) {
         int size = strArray.length;
         String[] resultStrArray = new String[size];
         StringBuilder stringBuilder;
