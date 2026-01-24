@@ -1,6 +1,5 @@
 package cn.edu.dll.map;
 
-import cn.edu.dll.basic.StringUtil;
 import cn.edu.dll.basic.ValidationUtil;
 import cn.edu.dll.constant_values.ConstantValues;
 
@@ -40,6 +39,10 @@ public class MapUtils {
             return defaultValue;
         }
         return value;
+    }
+    public static <K, P, V> V getTwoIndexValue(Map<K, Map<P, V>> rawMap, K rawKey, P innerKey) {
+        Map<P, V> innerMap = rawMap.get(rawKey);
+        return innerMap.get(innerKey);
     }
 
     public static <K, P> void shrink(Map<K, Map<P, Integer>> rawMap, Integer shrinkNumber) {
@@ -165,21 +168,48 @@ public class MapUtils {
         return resultMap;
     }
 
-    public static <K, V> Map<K, V> generateMapByKVList(List<K> kList, List<V> vList) {
-        Integer size = kList.size();
-        ValidationUtil.requireEqual(kList, vList.size(), "The sizes of these two lists are not equal!");
+    public static <K, V> Map<K, V> generateMapByKVCollection(Collection<K> kCollection, Collection<V> vCollection) {
+        Integer size = kCollection.size();
+        ValidationUtil.requireEqual(kCollection, vCollection.size(), "The sizes of these two lists are not equal!");
         Map<K, V> resultMap = new HashMap<>(size);
         K key;
         V value;
-        for (int i = 0; i < size; i++) {
-            key = kList.get(i);
-            value = vList.get(i);
+        Iterator<K> kIterator = kCollection.iterator();
+        Iterator<V> vIterator = vCollection.iterator();
+        while (kIterator.hasNext()) {
+            key = kIterator.next();
+            value = vIterator.next();
             resultMap.put(key, value);
         }
         return resultMap;
     }
+    // 如果kCollection出现originalMap中的key，会替换相应的值
+    public static <K, V> Map<K, V> addMapByKVCollection(Map<K, V> originalMap, Collection<K> kCollection, Collection<V> vCollection) {
+        ValidationUtil.requireEqual(kCollection, vCollection.size(), "The sizes of these two lists are not equal!");
+        K key;
+        V value;
+        Iterator<K> kIterator = kCollection.iterator();
+        Iterator<V> vIterator = vCollection.iterator();
+        while (kIterator.hasNext()) {
+            key = kIterator.next();
+            value = vIterator.next();
+            originalMap.put(key, value);
+        }
+        return originalMap;
+    }
 
-
+    public static <K, V> Map<K, V> extractSubMap(final Map<K, V> totalMap, final Collection<K> keyCollection) {
+        Map<K, V> resultMap = new HashMap<>();
+        V tempValue;
+        for (K key : keyCollection) {
+            tempValue = totalMap.get(key);
+            if (tempValue == null) {
+                continue;
+            }
+            resultMap.put(key, tempValue);
+        }
+        return resultMap;
+    }
 
 
 }
