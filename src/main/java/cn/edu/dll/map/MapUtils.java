@@ -2,6 +2,7 @@ package cn.edu.dll.map;
 
 import cn.edu.dll.basic.ValidationUtil;
 import cn.edu.dll.constant_values.ConstantValues;
+import cn.edu.dll.struct.pair.CombinePair;
 
 import java.util.*;
 
@@ -183,6 +184,29 @@ public class MapUtils {
         }
         return resultMap;
     }
+
+    public static <K, P, V> CombinePair<List<V>, List<CombinePair<K, P>>> toTwoIndexValueKeyListPair(Map<K, Map<P, V>> data) {
+        List<V> valueList = new ArrayList<>();
+        List<CombinePair<K, P>> keyPairList = new ArrayList<>();
+        Map<P, V> innerMap;
+        K outerKey;
+        P innerKey;
+        V value;
+        for (Map.Entry<K, Map<P, V>> entry : data.entrySet()) {
+            outerKey = entry.getKey();
+            innerMap = entry.getValue();
+            for (Map.Entry<P, V> innerEntry : innerMap.entrySet()) {
+                innerKey = innerEntry.getKey();
+                value = innerEntry.getValue();
+                valueList.add(value);
+                keyPairList.add(new CombinePair<>(outerKey, innerKey));
+            }
+        }
+        return new CombinePair<>(valueList, keyPairList);
+    }
+
+
+
     // 如果kCollection出现originalMap中的key，会替换相应的值
     public static <K, V> Map<K, V> addMapByKVCollection(Map<K, V> originalMap, Collection<K> kCollection, Collection<V> vCollection) {
         ValidationUtil.requireEqual(kCollection, vCollection.size(), "The sizes of these two lists are not equal!");

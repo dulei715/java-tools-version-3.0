@@ -48,6 +48,13 @@ public class SimpleUndirectedGraph extends Graph<UndirectedEdge> {
         this.adjacentMap.computeIfAbsent(node, k -> new HashMap<>());
     }
 
+    public void addNode(Set<Node> nodeSet) {
+        super.nodeSet.addAll(nodeSet);
+        for (Node node : nodeSet) {
+            this.adjacentMap.computeIfAbsent(node, k -> new HashMap<>());
+        }
+    }
+
     public void addEdge(UndirectedEdge edge) {
         Iterator<Node> iterator = edge.getNodeSet().iterator();
         Node nodeA = iterator.next();
@@ -63,6 +70,12 @@ public class SimpleUndirectedGraph extends Graph<UndirectedEdge> {
 
         this.edgeSet.add(edge);
 
+    }
+
+    public void addEdge(Collection<UndirectedEdge> edgeCollection) {
+        for (UndirectedEdge edge : edgeCollection) {
+            addEdge(edge);
+        }
     }
 
     public Map<Node, UndirectedEdge> getNeighboring(Node node) {
