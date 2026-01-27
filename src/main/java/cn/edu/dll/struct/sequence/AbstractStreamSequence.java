@@ -16,7 +16,10 @@ public abstract class AbstractStreamSequence<T> implements StreamSequence<T>{
         this.deque = new ArrayDeque<>();
     }
 
-
+    @Override
+    public boolean isEmpty() {
+        return this.deque.isEmpty();
+    }
 
     @Override
     public void add(T element) {

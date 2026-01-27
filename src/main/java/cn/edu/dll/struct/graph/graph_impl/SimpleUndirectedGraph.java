@@ -1,6 +1,7 @@
 package cn.edu.dll.struct.graph.graph_impl;
 
 import cn.edu.dll.map.MapUtils;
+import cn.edu.dll.struct.graph.Edge;
 import cn.edu.dll.struct.graph.Graph;
 import cn.edu.dll.struct.graph.Node;
 import cn.edu.dll.struct.graph.edge_impl.UndirectedEdge;
@@ -140,6 +141,28 @@ public class SimpleUndirectedGraph extends Graph<UndirectedEdge> {
         }
     }
 
+    public void complementGraph(final SimpleUndirectedGraph totalGraph) {
+        Set<Node> complementNodeSet = new HashSet<>(totalGraph.nodeSet);
+        complementNodeSet.removeAll(this.nodeSet);
+        List<Node> complementNodeList = new ArrayList<>(complementNodeSet);
+        Map<Node, UndirectedEdge> adjacent;
+        Set<UndirectedEdge> extraEdgeSet = new HashSet<>();
+        Node innerNode;
+        UndirectedEdge edge;
+        for (Node extraNode : complementNodeSet) {
+            this.addNode(extraNode);
+            adjacent = totalGraph.getAdjacent(extraNode);
+            for (Map.Entry<Node, UndirectedEdge> entry : adjacent.entrySet()) {
+                edge = entry.getValue();
+                if (extraEdgeSet.contains(edge)) {
+                    continue;
+                }
+                extraEdgeSet.add(edge);
+            }
+        }
+
+    }
+
 
     public Set<Node> getNodeSet() {
         return nodeSet;
@@ -153,6 +176,11 @@ public class SimpleUndirectedGraph extends Graph<UndirectedEdge> {
     @Override
     public Map<Node, Map<Node, UndirectedEdge>> getAdjacentMap() {
         return adjacentMap;
+    }
+
+    @Override
+    public Map<Node, UndirectedEdge> getAdjacent(Node node) {
+        return this.adjacentMap.get(node);
     }
 
 

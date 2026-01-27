@@ -19,6 +19,8 @@ public abstract class Graph <T extends Edge> {
 
     public abstract Map<Node, Map<Node, T>> getAdjacentMap();
 
+    public abstract Map<Node, T> getAdjacent(Node node);
+
     public abstract Set<T> getEdgeSet();
 
     public void edgeMultiple(Double factor) {
@@ -34,6 +36,7 @@ public abstract class Graph <T extends Edge> {
         Objects.requireNonNull(innerMap);
         return innerMap.get(nodeB);
     }
+
 
     public Double getAdjacentEdgeValueSum(Node node) {
         Map<Node, T> innerMap = this.getAdjacentMap().get(node);

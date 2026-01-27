@@ -34,6 +34,11 @@ public class SimpleDirectedGraph extends Graph<DirectedEdge> {
     }
 
     @Override
+    public Map<Node, DirectedEdge> getAdjacent(Node node) {
+        return this.adjacentMap.get(node);
+    }
+
+    @Override
     public Set<DirectedEdge> getEdgeSet() {
         return this.edgeSet;
     }
