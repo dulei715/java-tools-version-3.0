@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class UndirectedEdge extends Edge {
+public abstract class UndirectedEdge extends Edge {
     protected Set<Node> nodeSet = null;
 
     public UndirectedEdge(Double value) {

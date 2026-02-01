@@ -343,6 +343,16 @@ public class BasicArrayUtil {
         }
         return result;
     }
+    public static Long[] getIncreaseLongNumberArray(Long startValue, Long step, Long maxValue) {
+        int size = (int) ((maxValue - startValue) / step + 1);
+        Long[] result = new Long[size];
+        long value;
+        int i;
+        for (value = startValue, i = 0; value <= maxValue; value += step, i++) {
+            result[i] = value;
+        }
+        return result;
+    }
 
     public static double[] getIncreasedoubleNumberArray(double startValue, double step, double maxValue, int precision) {
         int size = (int) Math.ceil((maxValue - startValue) / step + 1);

@@ -3,8 +3,10 @@ import cn.edu.dll.struct.graph.Community;
 import cn.edu.dll.struct.graph.Node;
 import cn.edu.dll.struct.graph.edge_impl.DirectedEdge;
 import cn.edu.dll.struct.graph.edge_impl.UndirectedEdge;
+import cn.edu.dll.struct.graph.edge_impl.WeightedUndirectedEdge;
 import cn.edu.dll.struct.graph.graph_impl.SimpleDirectedGraph;
 import cn.edu.dll.struct.graph.graph_impl.SimpleUndirectedGraph;
+import cn.edu.dll.struct.graph.graph_impl.SimpleWeightedUndirectedGraph;
 import cn.edu.dll.struct.graph.node_impl.SimpleNode;
 import cn.edu.dll.struct.graph.utils.GraphTools;
 import org.junit.Before;
@@ -32,15 +34,15 @@ public class GraphTest {
                 new SimpleNode(7), new SimpleNode(8)
         });
         undirectedEdgeList = Arrays.asList(new UndirectedEdge[] {
-                new UndirectedEdge(21D, nodeList.get(0), nodeList.get(1)),
-                new UndirectedEdge(6D, nodeList.get(1), nodeList.get(2)),
-                new UndirectedEdge(33D, nodeList.get(2), nodeList.get(3)),
-                new UndirectedEdge(10D, nodeList.get(3), nodeList.get(0)),
+                new WeightedUndirectedEdge(21D, nodeList.get(0), nodeList.get(1)),
+                new WeightedUndirectedEdge(6D, nodeList.get(1), nodeList.get(2)),
+                new WeightedUndirectedEdge(33D, nodeList.get(2), nodeList.get(3)),
+                new WeightedUndirectedEdge(10D, nodeList.get(3), nodeList.get(0)),
 
-                new UndirectedEdge(13D, nodeList.get(0), nodeList.get(2)),
-                new UndirectedEdge(4D, nodeList.get(2), nodeList.get(3)),
-                new UndirectedEdge(76D, nodeList.get(3), nodeList.get(7)),
-                new UndirectedEdge(17D, nodeList.get(7), nodeList.get(6))
+                new WeightedUndirectedEdge(13D, nodeList.get(0), nodeList.get(2)),
+                new WeightedUndirectedEdge(4D, nodeList.get(2), nodeList.get(3)),
+                new WeightedUndirectedEdge(76D, nodeList.get(3), nodeList.get(7)),
+                new WeightedUndirectedEdge(17D, nodeList.get(7), nodeList.get(6))
         });
         directedEdgeList = Arrays.asList(new DirectedEdge[] {
                 new DirectedEdge(21D, nodeList.get(0), nodeList.get(1)),
@@ -58,13 +60,13 @@ public class GraphTest {
 
     @Test
     public void undirectedGraphTest() {
-        SimpleUndirectedGraph graphA = new SimpleUndirectedGraph();
+        SimpleUndirectedGraph<WeightedUndirectedEdge> graphA = new SimpleWeightedUndirectedGraph();
         for (int i = 0; i < 4; i++) {
-            graphA.addEdge(undirectedEdgeList.get(i));
+            graphA.addEdge((WeightedUndirectedEdge) undirectedEdgeList.get(i));
         }
-        SimpleUndirectedGraph graphB = new SimpleUndirectedGraph();
+        SimpleUndirectedGraph<WeightedUndirectedEdge> graphB = new SimpleWeightedUndirectedGraph();
         for (int i = 4; i < undirectedEdgeList.size(); i++) {
-             graphB.addEdge(undirectedEdgeList.get(i));
+             graphB.addEdge((WeightedUndirectedEdge) undirectedEdgeList.get(i));
 
         }
         MyPrint.showSplitLine("*", 150);
@@ -80,13 +82,13 @@ public class GraphTest {
     }
     @Test
     public void undirectedGraphWithLimitTest() {
-        SimpleUndirectedGraph graphA = new SimpleUndirectedGraph();
+        SimpleUndirectedGraph<WeightedUndirectedEdge> graphA = new SimpleWeightedUndirectedGraph();
         for (int i = 0; i < 4; i++) {
-            graphA.addEdge(undirectedEdgeList.get(i));
+            graphA.addEdge((WeightedUndirectedEdge) undirectedEdgeList.get(i));
         }
-        SimpleUndirectedGraph graphB = new SimpleUndirectedGraph();
+        SimpleUndirectedGraph<WeightedUndirectedEdge> graphB = new SimpleWeightedUndirectedGraph();
         for (int i = 4; i < undirectedEdgeList.size(); i++) {
-             graphB.addEdge(undirectedEdgeList.get(i));
+             graphB.addEdge((WeightedUndirectedEdge) undirectedEdgeList.get(i));
 
         }
         List<Node> limitNodeList = Arrays.asList(
