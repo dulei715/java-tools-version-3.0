@@ -48,4 +48,18 @@ public abstract class Graph <T extends Edge> {
         return result;
     }
 
+    public Double getAdjacentEdgeValueSum(Node node, Collection<Node> limitedNodeCollection) {
+        Map<Node, T> innerMap = this.getAdjacentMap().get(node);
+        Objects.requireNonNull(innerMap);
+        Double result = 0D;
+        Node adjacentNode;
+        for (Map.Entry<Node, T> entry : innerMap.entrySet()) {
+            adjacentNode = entry.getKey();
+            if (limitedNodeCollection.contains(adjacentNode)) {
+                result += entry.getValue().getValue();
+            }
+        }
+        return result;
+    }
+
 }
