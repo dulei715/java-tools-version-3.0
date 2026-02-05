@@ -37,7 +37,11 @@ public abstract class Graph <T extends Edge> {
         return innerMap.get(nodeB);
     }
 
-
+    /**
+     * 获取给定节点 node 的邻接边权重之和
+     * @param node
+     * @return
+     */
     public Double getAdjacentEdgeValueSum(Node node) {
         Map<Node, T> innerMap = this.getAdjacentMap().get(node);
         Objects.requireNonNull(innerMap);
@@ -48,6 +52,12 @@ public abstract class Graph <T extends Edge> {
         return result;
     }
 
+    /**
+     * 获取给定节点node 到 limitedNodeCollection 中节点的边（直连）权重之和
+     * @param node
+     * @param limitedNodeCollection
+     * @return
+     */
     public Double getAdjacentEdgeValueSum(Node node, Collection<Node> limitedNodeCollection) {
         Map<Node, T> innerMap = this.getAdjacentMap().get(node);
         Objects.requireNonNull(innerMap);
