@@ -8,11 +8,10 @@ import cn.edu.dll.struct.graph.graph_impl.SimpleDirectedGraph;
 import cn.edu.dll.struct.graph.graph_impl.SimpleUndirectedGraph;
 import cn.edu.dll.struct.graph.graph_impl.SimpleWeightedUndirectedGraph;
 import cn.edu.dll.struct.graph.node_impl.SimpleNode;
-import cn.edu.dll.struct.graph.utils.GraphTools;
+import cn.edu.dll.struct.graph.utils.GraphUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -70,15 +69,15 @@ public class GraphTest {
 
         }
         MyPrint.showSplitLine("*", 150);
-        GraphTools.showGraph(graphA);
+        GraphUtils.showGraph(graphA);
 
 
         MyPrint.showSplitLine("*", 150);
-        GraphTools.showGraph(graphB);
+        GraphUtils.showGraph(graphB);
 
         MyPrint.showSplitLine("*", 150);
         graphA.combineGraph(graphB);
-        GraphTools.showGraph(graphA);
+        GraphUtils.showGraph(graphA);
     }
     @Test
     public void undirectedGraphWithLimitTest() {
@@ -96,11 +95,11 @@ public class GraphTest {
                 new SimpleNode(12), new SimpleNode(15)
         );
         MyPrint.showSplitLine("*", 150);
-        GraphTools.showGraph(graphA);
+        GraphUtils.showGraph(graphA);
 
 
         MyPrint.showSplitLine("*", 150);
-        GraphTools.showGraph(graphB);
+        GraphUtils.showGraph(graphB);
 
         MyPrint.showSplitLine("*", 150);
         MyPrint.showCollection(limitNodeList, "; ");
@@ -108,7 +107,7 @@ public class GraphTest {
         MyPrint.showSplitLine("*", 150);
 
         graphA.combineGraph(graphB, new HashSet<>(limitNodeList));
-        GraphTools.showGraph(graphA);
+        GraphUtils.showGraph(graphA);
     }
 
     @Test
@@ -123,15 +122,15 @@ public class GraphTest {
 
         }
         MyPrint.showSplitLine("*", 150);
-        GraphTools.showGraph(graphA);
+        GraphUtils.showGraph(graphA);
 
 
         MyPrint.showSplitLine("*", 150);
-        GraphTools.showGraph(graphB);
+        GraphUtils.showGraph(graphB);
 
         MyPrint.showSplitLine("*", 150);
         graphA.combineGraph(graphB);
-        GraphTools.showGraph(graphA);
+        GraphUtils.showGraph(graphA);
     }
 
     @Test

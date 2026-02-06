@@ -1,11 +1,10 @@
 package cn.edu.dll.struct.graph.graph_impl;
 
 import cn.edu.dll.map.MapUtils;
-import cn.edu.dll.struct.graph.Edge;
 import cn.edu.dll.struct.graph.Graph;
 import cn.edu.dll.struct.graph.Node;
 import cn.edu.dll.struct.graph.edge_impl.UndirectedEdge;
-import cn.edu.dll.struct.graph.utils.GraphTools;
+import cn.edu.dll.struct.graph.utils.GraphUtils;
 
 import java.util.*;
 
@@ -25,7 +24,7 @@ public abstract class SimpleUndirectedGraph<T extends UndirectedEdge> extends Gr
     public SimpleUndirectedGraph(Set<Node> nodeSet, Map<Node, Map<Node, T>> adjacentMap) {
         this.nodeSet = nodeSet;
         this.adjacentMap = adjacentMap;
-        this.edgeSet = GraphTools.getEdgeSetByNodeSetAdjacent(this.nodeSet, this.adjacentMap);
+        this.edgeSet = GraphUtils.getEdgeSetByNodeSetAdjacent(this.nodeSet, this.adjacentMap);
     }
 
 
@@ -102,10 +101,6 @@ public abstract class SimpleUndirectedGraph<T extends UndirectedEdge> extends Gr
 
     }
 
-
-    public Set<Node> getNodeSet() {
-        return nodeSet;
-    }
 
     @Override
     public Set<T> getEdgeSet() {

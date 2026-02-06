@@ -1,26 +1,25 @@
 package cn.edu.dll.struct.graph;
 
-import java.util.Objects;
 
-public abstract class Edge implements Comparable<Edge> {
-    protected Double value = null;
+public abstract class Edge<T extends Number & Comparable<T>> implements Comparable<Edge<T>> {
+    protected T value = null;
 
     public Edge() {
     }
 
-    public Edge(Double value) {
+    public Edge(T value) {
         this.value = value;
     }
 
-    public void setValue(Double value) {
+    public void setValue(T value) {
         this.value = value;
     }
 
-    public Double getValue() {
+    public T getValue() {
         return value;
     }
 
-    public boolean valueEqual(Edge edge) {
+    public boolean valueEqual(Edge<T> edge) {
         return this.value.equals(edge.value);
     }
 
@@ -30,20 +29,9 @@ public abstract class Edge implements Comparable<Edge> {
      */
     public abstract int hashCode();
     public abstract boolean equals(Object o);
-//    @Override
-//    public boolean equals(Object o) {
-//        if (o == null || getClass() != o.getClass()) return false;
-//        Edge edge = (Edge) o;
-//        return Objects.equals(value, edge.value);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hashCode(value);
-//    }
 
     @Override
-    public int compareTo(Edge edgeB) {
+    public int compareTo(Edge<T> edgeB) {
         return this.value.compareTo(edgeB.value);
     }
 

@@ -5,14 +5,20 @@ import cn.edu.dll.constant_values.ConstantValues;
 import cn.edu.dll.struct.graph.Edge;
 import cn.edu.dll.struct.graph.Graph;
 import cn.edu.dll.struct.graph.Node;
-import cn.edu.dll.struct.graph.edge_impl.UndirectedEdge;
 
 import java.util.*;
 
-public class GraphTools {
+public class GraphUtils {
+
+    public static <T extends Edge> T getEdge(Graph<T> graph, Node nodeA, Node nodeB) {
+        Map<Node, T> neighboring = graph.getNeighboring(nodeA);
+        if (neighboring == null) {
+            return null;
+        }
+        return neighboring.get(nodeB);
+    }
+
     public static <T extends Edge> Set<T> getEdgeSetByNodeSetAdjacent(Set<Node> nodeSet, Map<Node, Map<Node, T>> adjacentMap) {
-        Integer nodeSize = nodeSet.size();
-        List<Node> nodeList = new ArrayList<>(nodeSet);
         Map<Node, T> tempInnerMap;
         T tempEdge;
         Set<T> edgeSet = new HashSet<>();

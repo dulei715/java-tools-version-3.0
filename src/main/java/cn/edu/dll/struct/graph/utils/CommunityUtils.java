@@ -18,4 +18,6 @@ public class CommunityUtils {
         }
         return resultList;
     }
+
+//    public static Double getCommunity
 }

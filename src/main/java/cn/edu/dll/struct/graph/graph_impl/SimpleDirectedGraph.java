@@ -4,7 +4,7 @@ import cn.edu.dll.map.MapUtils;
 import cn.edu.dll.struct.graph.Graph;
 import cn.edu.dll.struct.graph.Node;
 import cn.edu.dll.struct.graph.edge_impl.DirectedEdge;
-import cn.edu.dll.struct.graph.utils.GraphTools;
+import cn.edu.dll.struct.graph.utils.GraphUtils;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,7 +25,7 @@ public class SimpleDirectedGraph extends Graph<DirectedEdge> {
 
     public SimpleDirectedGraph(Set<Node> nodeSet, Map<Node, Map<Node, DirectedEdge>> adjacentMap) {
         this.adjacentMap = adjacentMap;
-        this.edgeSet = GraphTools.getEdgeSetByNodeSetAdjacent(this.nodeSet, this.adjacentMap);
+        this.edgeSet = GraphUtils.getEdgeSetByNodeSetAdjacent(this.nodeSet, this.adjacentMap);
     }
 
     @Override

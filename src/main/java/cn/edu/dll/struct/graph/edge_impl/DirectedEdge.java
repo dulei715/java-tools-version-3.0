@@ -5,18 +5,18 @@ import cn.edu.dll.struct.graph.Node;
 
 import java.util.Objects;
 
-public class DirectedEdge extends Edge {
+public class DirectedEdge<T extends Number & Comparable<T>> extends Edge<T> {
 
     protected Node startNode = null;
     protected Node endNode = null;
 
-    public DirectedEdge(Double value, Node startNode, Node endNode) {
+    public DirectedEdge(T value, Node startNode, Node endNode) {
         this.value = value;
         this.startNode = startNode;
         this.endNode = endNode;
     }
 
-    public DirectedEdge(Double value) {
+    public DirectedEdge(T value) {
         this.value = value;
     }
 
@@ -32,8 +32,9 @@ public class DirectedEdge extends Edge {
 
     @Override
     public boolean equals(Object o) {
+        if (this==o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DirectedEdge that = (DirectedEdge) o;
+        DirectedEdge<?> that = (DirectedEdge<?>) o;
         return Objects.equals(startNode, that.startNode) && Objects.equals(endNode, that.endNode);
     }
 
