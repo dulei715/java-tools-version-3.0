@@ -67,6 +67,7 @@ public abstract class SimpleUndirectedGraph<T extends UndirectedEdge> extends Gr
         }
     }
 
+    @Override
     public Map<Node, T> getNeighboring(Node node) {
         return this.adjacentMap.get(node);
     }
@@ -76,18 +77,21 @@ public abstract class SimpleUndirectedGraph<T extends UndirectedEdge> extends Gr
 
     public abstract void combineGraph(SimpleUndirectedGraph<T> graph, final Set<Node> limitNodeSet);
 
-    public void complementGraph(final SimpleUndirectedGraph totalGraph) {
+    /**
+     * 用给定的totalGraph补全本Graph，要求totalGraph和本Graph同类型
+     * @param totalGraph
+     */
+    public void complementGraph(final SimpleUndirectedGraph<T> totalGraph) {
         Set<Node> complementNodeSet = new HashSet<>(totalGraph.nodeSet);
         complementNodeSet.removeAll(this.nodeSet);
         List<Node> complementNodeList = new ArrayList<>(complementNodeSet);
-        Map<Node, UndirectedEdge> adjacent;
-        Set<UndirectedEdge> extraEdgeSet = new HashSet<>();
-        Node innerNode;
-        UndirectedEdge edge;
+        Map<Node, T> adjacent;
+        Set<T> extraEdgeSet = new HashSet<>();
+        T edge;
         for (Node extraNode : complementNodeSet) {
             this.addNode(extraNode);
             adjacent = totalGraph.getAdjacent(extraNode);
-            for (Map.Entry<Node, UndirectedEdge> entry : adjacent.entrySet()) {
+            for (Map.Entry<Node, T> entry : adjacent.entrySet()) {
                 edge = entry.getValue();
                 if (extraEdgeSet.contains(edge)) {
                     continue;

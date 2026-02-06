@@ -37,6 +37,8 @@ public abstract class Graph <T extends Edge> {
         return innerMap.get(nodeB);
     }
 
+    public abstract Map<Node, T> getNeighboring(Node node);
+
     /**
      * 获取给定节点 node 的邻接边权重之和
      * @param node

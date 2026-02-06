@@ -43,6 +43,11 @@ public class SimpleDirectedGraph extends Graph<DirectedEdge> {
         return this.edgeSet;
     }
 
+    @Override
+    public Map<Node, DirectedEdge> getNeighboring(Node node) {
+        return this.adjacentMap.get(node);
+    }
+
     protected void increaseEdgeValue(Node startNode, Node endNode, Double increasedValue) {
         Map<Node, DirectedEdge> innerMap = this.adjacentMap.get(startNode);
         DirectedEdge tempEdge;
