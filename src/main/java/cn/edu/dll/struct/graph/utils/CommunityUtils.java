@@ -3,10 +3,7 @@ package cn.edu.dll.struct.graph.utils;
 import cn.edu.dll.basic.ValidationUtil;
 import cn.edu.dll.struct.graph.Community;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 
 public class CommunityUtils {
     public static <T extends Number> List<Community> getInitializedCommunityList(Integer communitySize, LinkedHashSet<T> communityIDSet) {
@@ -19,5 +16,7 @@ public class CommunityUtils {
         return resultList;
     }
 
-//    public static Double getCommunity
+    public static Double getEdgeSetBetweenCommunityPair(Collection<Community> communityCollection) {
+
+    }
 }

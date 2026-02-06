@@ -36,6 +36,7 @@ public abstract class Graph <V extends Number & Comparable<V>, E extends Edge<V>
 
     /**
      * 获取给定节点 node 的邻接边权重之和
+     * 如果是无权图，每个边的权重是1，等价于计算边的个数
      * @param node
      * @return
      */
@@ -55,6 +56,7 @@ public abstract class Graph <V extends Number & Comparable<V>, E extends Edge<V>
 
     /**
      * 获取给定节点node 到 limitedNodeCollection 中节点的边（直连）权重之和
+     * 如果是无权图，每个边的权重是1，等价于计算边的个数
      * @param node
      * @param limitedNodeCollection
      * @return
@@ -62,15 +64,21 @@ public abstract class Graph <V extends Number & Comparable<V>, E extends Edge<V>
     public V getAdjacentEdgeValueSum(Node node, Collection<Node> limitedNodeCollection) {
         Map<Node, E> innerMap = this.getAdjacentMap().get(node);
         Objects.requireNonNull(innerMap);
-        Double result = 0D;
-        Node adjacentNode;
-        for (Map.Entry<Node, E> entry : innerMap.entrySet()) {
-            adjacentNode = entry.getKey();
-            if (limitedNodeCollection.contains(adjacentNode)) {
-                result += entry.getValue().getValue();
-            }
-        }
-        return result;
+
+//        Double result = 0D;
+//        Node adjacentNode;
+//        for (Map.Entry<Node, E> entry : innerMap.entrySet()) {
+//            adjacentNode = entry.getKey();
+//            if (limitedNodeCollection.contains(adjacentNode)) {
+//                result += entry.getValue().getValue();
+//            }
+//        }
+//        return result;
+        return innerMap.entrySet().stream()
+                .filter(entry -> limitedNodeCollection.contains(entry.getKey()))
+                .map(entry -> entry.getValue().getValue())
+                .reduce(valueAdder)
+                .orElseThrow(() -> new NoSuchElementException("No edges from" + node + "to the given node collection"));
     }
 
 }
