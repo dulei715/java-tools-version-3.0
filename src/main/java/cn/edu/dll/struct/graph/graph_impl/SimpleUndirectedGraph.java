@@ -1,31 +1,33 @@
 package cn.edu.dll.struct.graph.graph_impl;
 
 import cn.edu.dll.map.MapUtils;
-import cn.edu.dll.struct.graph.Edge;
 import cn.edu.dll.struct.graph.Graph;
 import cn.edu.dll.struct.graph.Node;
 import cn.edu.dll.struct.graph.edge_impl.UndirectedEdge;
-import cn.edu.dll.struct.graph.utils.GraphTools;
+import cn.edu.dll.struct.graph.utils.GraphUtils;
 
 import java.util.*;
+import java.util.function.BinaryOperator;
 
-public abstract class SimpleUndirectedGraph<T extends UndirectedEdge> extends Graph<T> {
+public abstract class SimpleUndirectedGraph<V extends Number & Comparable<V>, E extends UndirectedEdge<V>> extends Graph<V, E> {
 
-    protected Set<T> edgeSet;
+    protected Set<E> edgeSet;
     // 所有的edge只出现一次
-    protected Map<Node, Map<Node, T>> adjacentMap;
+    protected Map<Node, Map<Node, E>> adjacentMap;
 
-    public SimpleUndirectedGraph() {
+    public SimpleUndirectedGraph(BinaryOperator<V> valueAdder) {
+        super(valueAdder);
         this.edgeSet = new HashSet<>();
         this.adjacentMap = new HashMap<>();
     }
 
 
 
-    public SimpleUndirectedGraph(Set<Node> nodeSet, Map<Node, Map<Node, T>> adjacentMap) {
+    public SimpleUndirectedGraph(BinaryOperator<V> valueAdder, Set<Node> nodeSet, Map<Node, Map<Node, E>> adjacentMap) {
+        super(valueAdder);
         this.nodeSet = nodeSet;
         this.adjacentMap = adjacentMap;
-        this.edgeSet = GraphTools.getEdgeSetByNodeSetAdjacent(this.nodeSet, this.adjacentMap);
+        this.edgeSet = GraphUtils.getEdgeSetByNodeSetAdjacent(this.nodeSet, this.adjacentMap);
     }
 
 
@@ -44,7 +46,7 @@ public abstract class SimpleUndirectedGraph<T extends UndirectedEdge> extends Gr
         }
     }
 
-    public void addEdge(T edge) {
+    public void addEdge(E edge) {
         Iterator<Node> iterator = edge.getNodeSet().iterator();
         Node nodeA = iterator.next();
         Node nodeB = iterator.next();
@@ -61,31 +63,37 @@ public abstract class SimpleUndirectedGraph<T extends UndirectedEdge> extends Gr
 
     }
 
-    public void addEdge(Collection<T> edgeCollection) {
-        for (T edge : edgeCollection) {
+    public void addEdge(Collection<E> edgeCollection) {
+        for (E edge : edgeCollection) {
             addEdge(edge);
         }
     }
 
-    public Map<Node, T> getNeighboring(Node node) {
+    @Override
+    public Map<Node, E> getNeighboring(Node node) {
         return this.adjacentMap.get(node);
     }
 
 
-    public abstract void combineGraph(SimpleUndirectedGraph<T> graph);
+    public abstract void combineGraph(SimpleUndirectedGraph<V, E> graph);
 
-    public abstract void combineGraph(SimpleUndirectedGraph<T> graph, final Set<Node> limitNodeSet);
+    public abstract void combineGraph(SimpleUndirectedGraph<V, E> graph, final Set<Node> limitNodeSet);
 
-    public void complementGraph(final SimpleUndirectedGraph<T> totalGraph) {
+
+    /**
+     * 用给定的totalGraph补全本Graph，要求totalGraph和本Graph同类型
+     * @param totalGraph
+     */
+    public void complementGraph(final SimpleUndirectedGraph<V, E> totalGraph) {
         Set<Node> complementNodeSet = new HashSet<>(totalGraph.nodeSet);
         complementNodeSet.removeAll(this.nodeSet);
-        Map<Node, T> adjacent;
-        Set<UndirectedEdge> extraEdgeSet = new HashSet<>();
-        UndirectedEdge edge;
+        Map<Node, E> adjacent;
+        Set<E> extraEdgeSet = new HashSet<>();
+        E edge;
         for (Node extraNode : complementNodeSet) {
             this.addNode(extraNode);
             adjacent = totalGraph.getAdjacent(extraNode);
-            for (Map.Entry<Node, T> entry : adjacent.entrySet()) {
+            for (Map.Entry<Node, E> entry : adjacent.entrySet()) {
                 edge = entry.getValue();
                 if (extraEdgeSet.contains(edge)) {
                     continue;
@@ -97,17 +105,17 @@ public abstract class SimpleUndirectedGraph<T extends UndirectedEdge> extends Gr
 
 
     @Override
-    public Set<T> getEdgeSet() {
+    public Set<E> getEdgeSet() {
         return this.edgeSet;
     }
 
     @Override
-    public Map<Node, Map<Node, T>> getAdjacentMap() {
+    public Map<Node, Map<Node, E>> getAdjacentMap() {
         return adjacentMap;
     }
 
     @Override
-    public Map<Node, T> getAdjacent(Node node) {
+    public Map<Node, E> getAdjacent(Node node) {
         return this.adjacentMap.get(node);
     }
 

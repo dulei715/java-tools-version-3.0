@@ -9,10 +9,19 @@ import cn.edu.dll.struct.graph.edge_impl.WeightedUndirectedEdge;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BinaryOperator;
 
-public class SimpleUnweightedUndirectedGraph extends SimpleUndirectedGraph<UnweightedUndirectedEdge>{
+public class SimpleUnweightedUndirectedGraph extends SimpleUndirectedGraph<Integer, UnweightedUndirectedEdge>{
+    public SimpleUnweightedUndirectedGraph() {
+        super(Integer::sum);
+    }
+
+    public SimpleUnweightedUndirectedGraph(Set<Node> nodeSet, Map<Node, Map<Node, UnweightedUndirectedEdge>> adjacentMap) {
+        super(Integer::sum, nodeSet, adjacentMap);
+    }
+
     @Override
-    public void combineGraph(SimpleUndirectedGraph<UnweightedUndirectedEdge> graph) {
+    public void combineGraph(SimpleUndirectedGraph<Integer, UnweightedUndirectedEdge> graph) {
         Set<UnweightedUndirectedEdge> addedEdgeSet = graph.getEdgeSet();
         Map<UnweightedUndirectedEdge, UnweightedUndirectedEdge> currentEdgeSelfMap = MapUtils.getSelfMap(this.getEdgeSet());
         Set<UnweightedUndirectedEdge> realAddedEdgeSet = new HashSet<>();
@@ -30,7 +39,7 @@ public class SimpleUnweightedUndirectedGraph extends SimpleUndirectedGraph<Unwei
     }
 
     @Override
-    public void combineGraph(SimpleUndirectedGraph<UnweightedUndirectedEdge> graph, Set<Node> limitNodeSet) {
+    public void combineGraph(SimpleUndirectedGraph<Integer, UnweightedUndirectedEdge> graph, Set<Node> limitNodeSet) {
         Set<UnweightedUndirectedEdge> addedEdgeSet = graph.getEdgeSet();
         Map<UnweightedUndirectedEdge, UnweightedUndirectedEdge> currentEdgeSelfMap = MapUtils.getSelfMap(this.getEdgeSet());
         Set<Node> remainLimitNodeSet = new HashSet<>(limitNodeSet), currentEdgeNodeSet;

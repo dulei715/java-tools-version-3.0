@@ -9,13 +9,14 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class SimpleWeightedUndirectedGraph extends SimpleUndirectedGraph<WeightedUndirectedEdge>{
+public class SimpleWeightedUndirectedGraph extends SimpleUndirectedGraph<Double, WeightedUndirectedEdge>{
 
     public SimpleWeightedUndirectedGraph() {
+        super(Double::sum);
     }
 
     public SimpleWeightedUndirectedGraph(Set<Node> nodeSet, Map<Node, Map<Node, WeightedUndirectedEdge>> adjacentMap) {
-        super(nodeSet, adjacentMap);
+        super(Double::sum, nodeSet, adjacentMap);
     }
 
     /**
@@ -25,11 +26,11 @@ public class SimpleWeightedUndirectedGraph extends SimpleUndirectedGraph<Weighte
 
 
 
-    public void combineGraph(SimpleUndirectedGraph<WeightedUndirectedEdge> graph) {
+    public void combineGraph(SimpleUndirectedGraph<Double, WeightedUndirectedEdge> graph) {
         Set<WeightedUndirectedEdge> addedEdgeSet = graph.getEdgeSet();
         Map<WeightedUndirectedEdge, WeightedUndirectedEdge> currentEdgeSelfMap = MapUtils.getSelfMap(this.getEdgeSet());
         Set<WeightedUndirectedEdge> realAddedEdgeSet = new HashSet<>();
-        UndirectedEdge originalEdge;
+        UndirectedEdge<Double> originalEdge;
         for (WeightedUndirectedEdge edge : addedEdgeSet) {
             // 用新加入的edg定位原始的edge
             originalEdge = currentEdgeSelfMap.get(edge);
@@ -54,7 +55,7 @@ public class SimpleWeightedUndirectedGraph extends SimpleUndirectedGraph<Weighte
             this.edgeSet.add(tempEdge);
             return;
         }
-        UndirectedEdge edge = innerMap.get(nodeB);
+        UndirectedEdge<Double> edge = innerMap.get(nodeB);
         edge.setValue(edge.getValue() + increasedValue);
     }
 
@@ -64,12 +65,12 @@ public class SimpleWeightedUndirectedGraph extends SimpleUndirectedGraph<Weighte
      * @param graph
      * @param limitNodeSet
      */
-    public void combineGraph(SimpleUndirectedGraph<WeightedUndirectedEdge> graph, final Set<Node> limitNodeSet) {
+    public void combineGraph(SimpleUndirectedGraph<Double, WeightedUndirectedEdge> graph, final Set<Node> limitNodeSet) {
         Set<WeightedUndirectedEdge> addedEdgeSet = graph.getEdgeSet();
         Map<WeightedUndirectedEdge, WeightedUndirectedEdge> currentEdgeSelfMap = MapUtils.getSelfMap(this.getEdgeSet());
         Set<Node> remainLimitNodeSet = new HashSet<>(limitNodeSet), currentEdgeNodeSet;
         Set<WeightedUndirectedEdge> realAddedEdgeSet = new HashSet<>();
-        UndirectedEdge originalEdge;
+        UndirectedEdge<Double> originalEdge;
         for (WeightedUndirectedEdge edge : addedEdgeSet) {
             currentEdgeNodeSet = edge.getNodeSet();
             if (!limitNodeSet.containsAll(currentEdgeNodeSet)) {

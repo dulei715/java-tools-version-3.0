@@ -8,11 +8,10 @@ import cn.edu.dll.struct.graph.graph_impl.SimpleDirectedGraph;
 import cn.edu.dll.struct.graph.graph_impl.SimpleUndirectedGraph;
 import cn.edu.dll.struct.graph.graph_impl.SimpleWeightedUndirectedGraph;
 import cn.edu.dll.struct.graph.node_impl.SimpleNode;
-import cn.edu.dll.struct.graph.utils.GraphTools;
+import cn.edu.dll.struct.graph.utils.GraphUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -21,9 +20,9 @@ public class GraphTest {
 
     public static List<Node> nodeList;
 
-    public static List<UndirectedEdge> undirectedEdgeList;
+    public static List<UndirectedEdge<Double>> undirectedEdgeList;
 
-    public static List<DirectedEdge> directedEdgeList;
+    public static List<DirectedEdge<Double>> directedEdgeList;
 
     @Before
     public void before() {
@@ -33,7 +32,7 @@ public class GraphTest {
                 new SimpleNode(5), new SimpleNode(6),
                 new SimpleNode(7), new SimpleNode(8)
         });
-        undirectedEdgeList = Arrays.asList(new UndirectedEdge[] {
+        undirectedEdgeList = Arrays.asList(new WeightedUndirectedEdge[] {
                 new WeightedUndirectedEdge(21D, nodeList.get(0), nodeList.get(1)),
                 new WeightedUndirectedEdge(6D, nodeList.get(1), nodeList.get(2)),
                 new WeightedUndirectedEdge(33D, nodeList.get(2), nodeList.get(3)),
@@ -60,33 +59,33 @@ public class GraphTest {
 
     @Test
     public void undirectedGraphTest() {
-        SimpleUndirectedGraph<WeightedUndirectedEdge> graphA = new SimpleWeightedUndirectedGraph();
+        SimpleUndirectedGraph<Double, WeightedUndirectedEdge> graphA = new SimpleWeightedUndirectedGraph();
         for (int i = 0; i < 4; i++) {
             graphA.addEdge((WeightedUndirectedEdge) undirectedEdgeList.get(i));
         }
-        SimpleUndirectedGraph<WeightedUndirectedEdge> graphB = new SimpleWeightedUndirectedGraph();
+        SimpleUndirectedGraph<Double, WeightedUndirectedEdge> graphB = new SimpleWeightedUndirectedGraph();
         for (int i = 4; i < undirectedEdgeList.size(); i++) {
              graphB.addEdge((WeightedUndirectedEdge) undirectedEdgeList.get(i));
 
         }
         MyPrint.showSplitLine("*", 150);
-        GraphTools.showGraph(graphA);
+        GraphUtils.showGraph(graphA);
 
 
         MyPrint.showSplitLine("*", 150);
-        GraphTools.showGraph(graphB);
+        GraphUtils.showGraph(graphB);
 
         MyPrint.showSplitLine("*", 150);
         graphA.combineGraph(graphB);
-        GraphTools.showGraph(graphA);
+        GraphUtils.showGraph(graphA);
     }
     @Test
     public void undirectedGraphWithLimitTest() {
-        SimpleUndirectedGraph<WeightedUndirectedEdge> graphA = new SimpleWeightedUndirectedGraph();
+        SimpleUndirectedGraph<Double, WeightedUndirectedEdge> graphA = new SimpleWeightedUndirectedGraph();
         for (int i = 0; i < 4; i++) {
             graphA.addEdge((WeightedUndirectedEdge) undirectedEdgeList.get(i));
         }
-        SimpleUndirectedGraph<WeightedUndirectedEdge> graphB = new SimpleWeightedUndirectedGraph();
+        SimpleUndirectedGraph<Double, WeightedUndirectedEdge> graphB = new SimpleWeightedUndirectedGraph();
         for (int i = 4; i < undirectedEdgeList.size(); i++) {
              graphB.addEdge((WeightedUndirectedEdge) undirectedEdgeList.get(i));
 
@@ -96,11 +95,11 @@ public class GraphTest {
                 new SimpleNode(12), new SimpleNode(15)
         );
         MyPrint.showSplitLine("*", 150);
-        GraphTools.showGraph(graphA);
+        GraphUtils.showGraph(graphA);
 
 
         MyPrint.showSplitLine("*", 150);
-        GraphTools.showGraph(graphB);
+        GraphUtils.showGraph(graphB);
 
         MyPrint.showSplitLine("*", 150);
         MyPrint.showCollection(limitNodeList, "; ");
@@ -108,30 +107,30 @@ public class GraphTest {
         MyPrint.showSplitLine("*", 150);
 
         graphA.combineGraph(graphB, new HashSet<>(limitNodeList));
-        GraphTools.showGraph(graphA);
+        GraphUtils.showGraph(graphA);
     }
 
     @Test
     public void directedGraphTest() {
-        SimpleDirectedGraph graphA = new SimpleDirectedGraph();
+        SimpleDirectedGraph<Double, DirectedEdge<Double>> graphA = new SimpleDirectedGraph<>(Double::sum);
         for (int i = 0; i < 4; i++) {
             graphA.addEdge(directedEdgeList.get(i));
         }
-        SimpleDirectedGraph graphB = new SimpleDirectedGraph();
+        SimpleDirectedGraph<Double, DirectedEdge<Double>> graphB = new SimpleDirectedGraph<>(Double::sum);
         for (int i = 4; i < directedEdgeList.size(); i++) {
             graphB.addEdge(directedEdgeList.get(i));
 
         }
         MyPrint.showSplitLine("*", 150);
-        GraphTools.showGraph(graphA);
+        GraphUtils.showGraph(graphA);
 
 
         MyPrint.showSplitLine("*", 150);
-        GraphTools.showGraph(graphB);
+        GraphUtils.showGraph(graphB);
 
         MyPrint.showSplitLine("*", 150);
         graphA.combineGraph(graphB);
-        GraphTools.showGraph(graphA);
+        GraphUtils.showGraph(graphA);
     }
 
     @Test

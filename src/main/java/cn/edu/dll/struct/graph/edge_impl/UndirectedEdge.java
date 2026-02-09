@@ -7,15 +7,15 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public abstract class UndirectedEdge extends Edge {
+public abstract class UndirectedEdge<T extends Number & Comparable<T>> extends Edge<T> {
     protected Set<Node> nodeSet = null;
 
-    public UndirectedEdge(Double value) {
+    public UndirectedEdge(T value) {
         super(value);
         this.nodeSet = new HashSet<>();
     }
 
-    public UndirectedEdge(Double value, Node nodeA, Node nodeB) {
+    public UndirectedEdge(T value, Node nodeA, Node nodeB) {
         super(value);
         this.nodeSet = new HashSet<>();
         this.nodeSet.add(nodeA);
@@ -28,8 +28,9 @@ public abstract class UndirectedEdge extends Edge {
 
     @Override
     public boolean equals(Object o) {
+        if (this==o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UndirectedEdge that = (UndirectedEdge) o;
+        UndirectedEdge<?> that = (UndirectedEdge<?>) o;
         // 依赖于node之间的equals方法
         return Objects.equals(nodeSet, that.nodeSet);
     }
