@@ -31,9 +31,6 @@ public abstract class SimpleUndirectedGraph<V extends Number & Comparable<V>, E 
     }
 
 
-
-
-
     public void addNode(Node node) {
         super.nodeSet.add(node);
         this.adjacentMap.computeIfAbsent(node, k -> new HashMap<>());

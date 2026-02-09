@@ -41,6 +41,24 @@ public class CommunityUtils {
         return resultEdgeSet;
     }
 
+    public static <E extends Edge<?>> Set<E> getUndirectedEdgeSetWithinCommunity(Community community, Map<Node, Map<Node, E>> adjacentMap) {
+        Map<Node, E> innerAdjacentMap;
+        Node currentNode, adjacentNode;
+        E adjacentEdge;
+        Set<Node> nodeSet = community.getNodeSet();
+        Set<E> resultEdgeSet = new HashSet<>();
+        for (Node node : nodeSet) {
+            innerAdjacentMap = adjacentMap.get(node);
+            for (Map.Entry<Node, E> entry : innerAdjacentMap.entrySet()) {
+                adjacentNode = entry.getKey();
+                if (community.contains(adjacentNode)) {
+                    resultEdgeSet.add(entry.getValue());
+                }
+            }
+        }
+        return resultEdgeSet;
+    }
+
     /**
      * 获取给定community collection中所有的社区间的边的集合
      * @param communityCollection
