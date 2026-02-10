@@ -41,6 +41,12 @@ public class MapUtils {
         }
         return value;
     }
+    public static <K, P, V> Set<V> computeTwoIndexValueSetIfAbsent(Map<K, Map<P, Set<V>>> rawMap, K rawKey, P innerKey) {
+        Map<P, Set<V>> innerMap = rawMap.computeIfAbsent(rawKey, k -> new HashMap<>());
+        return innerMap.computeIfAbsent(innerKey, k -> new HashSet<>());
+    }
+
+
     public static <K, P, V> V getTwoIndexValue(Map<K, Map<P, V>> rawMap, K rawKey, P innerKey) {
         Map<P, V> innerMap = rawMap.get(rawKey);
         return innerMap.get(innerKey);

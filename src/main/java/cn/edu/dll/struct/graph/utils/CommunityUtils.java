@@ -1,6 +1,7 @@
 package cn.edu.dll.struct.graph.utils;
 
 import cn.edu.dll.basic.ValidationUtil;
+import cn.edu.dll.map.MapUtils;
 import cn.edu.dll.struct.graph.Community;
 import cn.edu.dll.struct.graph.Edge;
 import cn.edu.dll.struct.graph.Node;
@@ -80,6 +81,31 @@ public class CommunityUtils {
             }
         }
         return resultEdgeSet;
+    }
+
+
+    public static <N extends Node, E extends UndirectedEdge<?, N>> Map<Community<N>, Map<Community<N>, Set<E>>> getUndirectedEdgeMapBetweenAllCommunityPairs(Collection<Community<N>> communityCollection, Map<N, Map<N, E>> adjacentMap) {
+        List<Community<N>> communityList = new ArrayList<>(communityCollection);
+        int communitySize = communityList.size();
+        Community<N> communityA, communityB;
+        Set<N> nodeSet;
+        Map<Community<N>, Map<Community<N>, Set<E>>> resultMap = new HashMap<>();
+        Set<E> tempEdgeSet;
+        for (int i = 0; i < communitySize; ++i) {
+            communityA = communityList.get(i);
+            nodeSet = communityA.getNodeSet();
+            for (N node : nodeSet) {
+                for (int j = i + 1; j < communitySize; ++j) {
+                    communityB = communityList.get(j);
+//                    MapUtils.getTwoIndexValueOrDefault(communityA, communityB, )
+//                    resultEdgeSet.addAll(getEdgeSetFromNodeToCommunity(node, communityB, adjacentMap));
+                    tempEdgeSet = MapUtils.computeTwoIndexValueSetIfAbsent(resultMap, communityA, communityB);
+                    tempEdgeSet.addAll(getEdgeSetFromNodeToCommunity(node, communityB, adjacentMap));
+                }
+            }
+        }
+        // todo: 测试
+        return resultMap;
     }
 
 
