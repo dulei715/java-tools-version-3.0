@@ -7,22 +7,22 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public abstract class UndirectedEdge<T extends Number & Comparable<T>> extends Edge<T> {
-    protected Set<Node> nodeSet = null;
+public abstract class UndirectedEdge<V extends Number & Comparable<V>, N extends Node> extends Edge<V> {
+    protected Set<N> nodeSet = null;
 
-    public UndirectedEdge(T value) {
+    public UndirectedEdge(V value) {
         super(value);
         this.nodeSet = new HashSet<>();
     }
 
-    public UndirectedEdge(T value, Node nodeA, Node nodeB) {
+    public UndirectedEdge(V value, N nodeA, N nodeB) {
         super(value);
         this.nodeSet = new HashSet<>();
         this.nodeSet.add(nodeA);
         this.nodeSet.add(nodeB);
     }
 
-    public Set<Node> getNodeSet() {
+    public Set<N> getNodeSet() {
         return nodeSet;
     }
 
@@ -30,7 +30,7 @@ public abstract class UndirectedEdge<T extends Number & Comparable<T>> extends E
     public boolean equals(Object o) {
         if (this==o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UndirectedEdge<?> that = (UndirectedEdge<?>) o;
+        UndirectedEdge<?,?> that = (UndirectedEdge<?,?>) o;
         // 依赖于node之间的equals方法
         return Objects.equals(nodeSet, that.nodeSet);
     }

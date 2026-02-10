@@ -4,43 +4,43 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class Community implements Comparable<Community> {
+public class Community<N extends Node> implements Comparable<Community<N>> {
     protected Long communityID;
-    protected Set<Node> nodeSet;
+    protected Set<N> nodeSet;
 
     public Community(Long communityID) {
         this.communityID = communityID;
         this.nodeSet = new HashSet<>();
     }
 
-    public Community(Long communityID, Set<Node> nodeSet) {
+    public Community(Long communityID, Set<N> nodeSet) {
         this(communityID);
         this.nodeSet.addAll(nodeSet);
     }
 
-    public Community(Long communityID, Node node) {
+    public Community(Long communityID, N node) {
         this(communityID);
         this.nodeSet.add(node);
     }
 
-    public void addNode(Node node) {
+    public void addNode(N node) {
         this.nodeSet.add(node);
     }
 
-    public boolean remove(Node node) {
+    public boolean remove(N node) {
         return this.nodeSet.remove(node);
     }
 
-    public boolean contains(Node node) {
+    public boolean contains(N node) {
         return this.nodeSet.contains(node);
     }
 
-    public void combineCommunity(Community community) {
+    public void combineCommunity(Community<N> community) {
         this.nodeSet.addAll(community.nodeSet);
     }
 
-    public static Community getCombineCommunity(Long communityID, final Community communityA, final Community communityB) {
-        Community community = new Community(communityID);
+    public static <N extends Node> Community<N> getCombineCommunity(Long communityID, final Community<N> communityA, final Community<N> communityB) {
+        Community<N> community = new Community<>(communityID);
         community.combineCommunity(communityA);
         community.combineCommunity(communityB);
         return community;
@@ -50,7 +50,7 @@ public class Community implements Comparable<Community> {
         return communityID;
     }
 
-    public Set<Node> getNodeSet() {
+    public Set<N> getNodeSet() {
         return nodeSet;
 
     }
@@ -67,7 +67,7 @@ public class Community implements Comparable<Community> {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Community community = (Community) o;
+        Community<?> community = (Community<?>) o;
         return Objects.equals(communityID, community.communityID);
     }
 

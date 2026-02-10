@@ -5,28 +5,30 @@ import cn.edu.dll.struct.graph.Node;
 
 import java.util.Objects;
 
-public class DirectedEdge<T extends Number & Comparable<T>> extends Edge<T> {
+//@Deprecated
+// 这里暂时用不到，所以先设置它为过期状态
+public class DirectedEdge<V extends Number & Comparable<V>, N extends Node> extends Edge<V> {
 
-    protected Node startNode = null;
-    protected Node endNode = null;
+    protected N startNode = null;
+    protected N endNode = null;
 
-    public DirectedEdge(T value, Node startNode, Node endNode) {
+    public DirectedEdge(V value, N startNode, N endNode) {
         this.value = value;
         this.startNode = startNode;
         this.endNode = endNode;
     }
 
-    public DirectedEdge(T value) {
+    public DirectedEdge(V value) {
         this.value = value;
     }
 
 
 
-    public Node getStartNode() {
+    public N getStartNode() {
         return startNode;
     }
 
-    public Node getEndNode() {
+    public N getEndNode() {
         return endNode;
     }
 
@@ -34,7 +36,7 @@ public class DirectedEdge<T extends Number & Comparable<T>> extends Edge<T> {
     public boolean equals(Object o) {
         if (this==o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DirectedEdge<?> that = (DirectedEdge<?>) o;
+        DirectedEdge<?, ?> that = (DirectedEdge<?, ?>) o;
         return Objects.equals(startNode, that.startNode) && Objects.equals(endNode, that.endNode);
     }
 

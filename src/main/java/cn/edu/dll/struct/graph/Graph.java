@@ -3,36 +3,36 @@ package cn.edu.dll.struct.graph;
 import java.util.*;
 import java.util.function.BinaryOperator;
 
-public abstract class Graph <V extends Number & Comparable<V>, E extends Edge<V>> {
+public abstract class Graph <V extends Number & Comparable<V>, N extends Node, E extends Edge<V>> {
     protected final BinaryOperator<V> valueAdder;
 
 
-    protected Set<Node> nodeSet;
+    protected Set<N> nodeSet;
 
     public Graph(BinaryOperator<V> valueAdder) {
         this.valueAdder = Objects.requireNonNull(valueAdder);
         this.nodeSet = new HashSet<>();
     }
 
-    public Set<Node> getNodeSet() {
+    public Set<N> getNodeSet() {
         return nodeSet;
     }
 
-    public abstract Map<Node, Map<Node, E>> getAdjacentMap();
+    public abstract Map<N, Map<N, E>> getAdjacentMap();
 
-    public abstract Map<Node, E> getAdjacent(Node node);
+    public abstract Map<N, E> getAdjacent(N node);
 
     public abstract Set<E> getEdgeSet();
 
 
-    public E getEdge(Node nodeA, Node nodeB) {
-        Map<Node, Map<Node, E>> adjacentMap = this.getAdjacentMap();
-        Map<Node, E> innerMap = adjacentMap.get(nodeA);
+    public E getEdge(N nodeA, N nodeB) {
+        Map<N, Map<N, E>> adjacentMap = this.getAdjacentMap();
+        Map<N, E> innerMap = adjacentMap.get(nodeA);
         Objects.requireNonNull(innerMap);
         return innerMap.get(nodeB);
     }
 
-    public abstract Map<Node, E> getNeighboring(Node node);
+    public abstract Map<N, E> getNeighboring(N node);
 
     /**
      * 获取给定节点 node 的邻接边权重之和
@@ -40,8 +40,8 @@ public abstract class Graph <V extends Number & Comparable<V>, E extends Edge<V>
      * @param node
      * @return
      */
-    public V getAdjacentEdgeValueSum(Node node) {
-        Map<Node, E> innerMap = this.getAdjacentMap().get(node);
+    public V getAdjacentEdgeValueSum(N node) {
+        Map<N, E> innerMap = this.getAdjacentMap().get(node);
         Objects.requireNonNull(innerMap);
 //        Double result = 0D;
 //        for (E edge : innerMap.values()) {
@@ -61,8 +61,8 @@ public abstract class Graph <V extends Number & Comparable<V>, E extends Edge<V>
      * @param limitedNodeCollection
      * @return
      */
-    public V getAdjacentEdgeValueSum(Node node, Collection<Node> limitedNodeCollection) {
-        Map<Node, E> innerMap = this.getAdjacentMap().get(node);
+    public V getAdjacentEdgeValueSum(N node, Collection<N> limitedNodeCollection) {
+        Map<N, E> innerMap = this.getAdjacentMap().get(node);
         Objects.requireNonNull(innerMap);
 
 //        Double result = 0D;

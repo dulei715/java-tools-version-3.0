@@ -19,8 +19,8 @@ public class GraphUtils {
      * @param <V>
      * @param <E>
      */
-    public static <V extends Number & Comparable<V>, E extends Edge<V>> E getEdge(Graph<V, E> graph, Node nodeA, Node nodeB) {
-        Map<Node, E> neighboring = graph.getNeighboring(nodeA);
+    public static <V extends Number & Comparable<V>, N extends Node, E extends Edge<V>> E getEdge(Graph<V, N, E> graph, N nodeA, N nodeB) {
+        Map<N, E> neighboring = graph.getNeighboring(nodeA);
         if (neighboring == null) {
             return null;
         }
@@ -35,13 +35,13 @@ public class GraphUtils {
      * @param <V>
      * @param <E>
      */
-    public static <V extends Number & Comparable<V>, E extends Edge<V>> Set<E> getEdgeSetByNodeSetAdjacent(Set<Node> nodeSet, Map<Node, Map<Node, E>> adjacentMap) {
-        Map<Node, E> tempInnerMap;
+    public static <V extends Number & Comparable<V>, N extends Node, E extends Edge<V>> Set<E> getEdgeSetByNodeSetAdjacent(Set<N> nodeSet, Map<N, Map<N, E>> adjacentMap) {
+        Map<N, E> tempInnerMap;
         E tempEdge;
         Set<E> edgeSet = new HashSet<>();
-        for (Node leftNode : nodeSet) {
+        for (N leftNode : nodeSet) {
             tempInnerMap = adjacentMap.get(leftNode);
-            for (Node rightNode : nodeSet) {
+            for (N rightNode : nodeSet) {
                 tempEdge = tempInnerMap.get(rightNode);
                 edgeSet.add(tempEdge);
             }
@@ -53,28 +53,27 @@ public class GraphUtils {
      * 将给定的图的每个边权乘上factor
      * @param weightedGraph
      * @param factor
-     * @param <E>
      */
-    public static <E extends Edge<Double>> void edgeMultiple(Graph<Double, E> weightedGraph, Double factor) {
+    public static <N extends Node, E extends Edge<Double>> void edgeMultiple(Graph<Double, N, E> weightedGraph, Double factor) {
         Set<E> edgeSet = weightedGraph.getEdgeSet();
         for (E edge : edgeSet) {
             edge.setValue(edge.getValue() * factor);
         }
     }
 
-    public static <V extends Number & Comparable<V>, E extends Edge<V>> void showGraph(Graph<V, E> graph) {
-        Node outerNode, innerNode;
-        Map<Node, E> innerMap;
+    public static <V extends Number & Comparable<V>, N extends Node, E extends Edge<V>> void showGraph(Graph<V, N, E> graph) {
+        N outerNode, innerNode;
+        Map<N, E> innerMap;
         E edge;
         graph.getAdjacentMap();
         StringBuilder stringBuilder = new StringBuilder();
-        for (Map.Entry<Node, Map<Node, E>> nodeMapEntry : graph.getAdjacentMap().entrySet()) {
+        for (Map.Entry<N, Map<N, E>> nodeMapEntry : graph.getAdjacentMap().entrySet()) {
             outerNode = nodeMapEntry.getKey();
             innerMap = nodeMapEntry.getValue();
             stringBuilder.append(String.format("node(%d): ", outerNode.getNodeID()));
             int i = 0;
             int size = innerMap.size();
-            for (Map.Entry<Node, E> innerEntry : innerMap.entrySet()) {
+            for (Map.Entry<N, E> innerEntry : innerMap.entrySet()) {
                 ++i;
                 innerNode = innerEntry.getKey();
                 edge = innerEntry.getValue();

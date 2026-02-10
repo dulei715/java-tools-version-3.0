@@ -9,12 +9,12 @@ import cn.edu.dll.struct.graph.edge_impl.UndirectedEdge;
 import java.util.*;
 
 public class CommunityUtils {
-    public static <T extends Number> List<Community> getInitializedCommunityList(Integer communitySize, LinkedHashSet<T> communityIDSet) {
+    public static <V extends Number & Comparable<V>, N extends Node> List<Community<N>> getInitializedCommunityList(Integer communitySize, LinkedHashSet<V> communityIDSet) {
         ValidationUtil.requireEqual(communitySize, communityIDSet.size(), "The communitySize and communityIDSetSize are not equal!");
-        List<Community> resultList = new ArrayList<>(communitySize);
-        Iterator<T> communityIDIterator = communityIDSet.iterator();
+        List<Community<N>> resultList = new ArrayList<>(communitySize);
+        Iterator<V> communityIDIterator = communityIDSet.iterator();
         for (int i = 0; i < communitySize; ++i) {
-            resultList.add(new Community(communityIDIterator.next().longValue()));
+            resultList.add(new Community<>(communityIDIterator.next().longValue()));
         }
         return resultList;
     }
@@ -25,13 +25,12 @@ public class CommunityUtils {
      * @param community
      * @param adjacentMap
      * @return
-     * @param <E>
      */
-    public static <E extends Edge<?>> Set<E> getEdgeSetFromNodeToCommunity(Node node, Community community, Map<Node, Map<Node, E>> adjacentMap) {
-        Node neighboringNode;
+    public static <N extends Node, E extends Edge<?>> Set<E> getEdgeSetFromNodeToCommunity(N node, Community<N> community, Map<N, Map<N, E>> adjacentMap) {
+        N neighboringNode;
         Set<E> resultEdgeSet = new HashSet<>();
-        Map<Node, E> neighboring = adjacentMap.get(node);
-        for (Map.Entry<Node, E> entry : neighboring.entrySet()) {
+        Map<N, E> neighboring = adjacentMap.get(node);
+        for (Map.Entry<N, E> entry : neighboring.entrySet()) {
             neighboringNode = entry.getKey();
             if (!community.contains(neighboringNode)) {
                 continue;
@@ -41,15 +40,14 @@ public class CommunityUtils {
         return resultEdgeSet;
     }
 
-    public static <E extends Edge<?>> Set<E> getUndirectedEdgeSetWithinCommunity(Community community, Map<Node, Map<Node, E>> adjacentMap) {
-        Map<Node, E> innerAdjacentMap;
-        Node currentNode, adjacentNode;
-        E adjacentEdge;
-        Set<Node> nodeSet = community.getNodeSet();
+    public static <N extends Node, E extends Edge<?>> Set<E> getUndirectedEdgeSetWithinCommunity(Community<N> community, Map<N, Map<N, E>> adjacentMap) {
+        Map<N, E> innerAdjacentMap;
+        N adjacentNode;
+        Set<N> nodeSet = community.getNodeSet();
         Set<E> resultEdgeSet = new HashSet<>();
-        for (Node node : nodeSet) {
+        for (N node : nodeSet) {
             innerAdjacentMap = adjacentMap.get(node);
-            for (Map.Entry<Node, E> entry : innerAdjacentMap.entrySet()) {
+            for (Map.Entry<N, E> entry : innerAdjacentMap.entrySet()) {
                 adjacentNode = entry.getKey();
                 if (community.contains(adjacentNode)) {
                     resultEdgeSet.add(entry.getValue());
@@ -64,18 +62,17 @@ public class CommunityUtils {
      * @param communityCollection
      * @param adjacentMap
      * @return
-     * @param <E>
      */
-    public static <E extends UndirectedEdge<?>> Set<E> getUndirectedEdgeSetBetweenAllCommunityPairs(Collection<Community> communityCollection, Map<Node, Map<Node, E>> adjacentMap) {
-        List<Community> communityList = new ArrayList<>(communityCollection);
+    public static <N extends Node, E extends UndirectedEdge<?, N>> Set<E> getUndirectedEdgeSetBetweenAllCommunityPairs(Collection<Community<N>> communityCollection, Map<N, Map<N, E>> adjacentMap) {
+        List<Community<N>> communityList = new ArrayList<>(communityCollection);
         int communitySize = communityList.size();
-        Community communityA, communityB;
-        Set<Node> nodeSet;
+        Community<N> communityA, communityB;
+        Set<N> nodeSet;
         Set<E> resultEdgeSet = new HashSet<>();
         for (int i = 0; i < communitySize; ++i) {
             communityA = communityList.get(i);
             nodeSet = communityA.getNodeSet();
-            for (Node node : nodeSet) {
+            for (N node : nodeSet) {
                 for (int j = i + 1; j < communitySize; ++j) {
                     communityB = communityList.get(j);
                     resultEdgeSet.addAll(getEdgeSetFromNodeToCommunity(node, communityB, adjacentMap));

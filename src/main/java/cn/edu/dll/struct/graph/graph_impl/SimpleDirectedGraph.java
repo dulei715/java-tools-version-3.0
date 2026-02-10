@@ -5,6 +5,7 @@ import cn.edu.dll.struct.graph.Graph;
 import cn.edu.dll.struct.graph.Node;
 import cn.edu.dll.struct.graph.edge_impl.DirectedEdge;
 import cn.edu.dll.struct.graph.edge_impl.UndirectedEdge;
+import cn.edu.dll.struct.graph.node_impl.SimpleNode;
 import cn.edu.dll.struct.graph.utils.GraphUtils;
 
 import java.util.HashMap;
@@ -13,12 +14,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BinaryOperator;
 
-public class SimpleDirectedGraph<V extends Number & Comparable<V>, E extends DirectedEdge<V>> extends Graph<V, E> {
+//@Deprecated
+// 这里暂时用不到，所以先设置它为过期状态
+public class SimpleDirectedGraph<V extends Number & Comparable<V>, E extends DirectedEdge<V, SimpleNode>> extends Graph<V, SimpleNode, E> {
     public static final Boolean PositiveDirection = true;
     public static final Boolean NegativeDirection = false;
 
     protected Set<E> edgeSet;
-    protected Map<Node, Map<Node, E>> adjacentMap;
+    protected Map<SimpleNode, Map<SimpleNode, E>> adjacentMap;
 
     public SimpleDirectedGraph(BinaryOperator<V> valueAdder) {
         super(valueAdder);
@@ -26,7 +29,7 @@ public class SimpleDirectedGraph<V extends Number & Comparable<V>, E extends Dir
         this.adjacentMap = new HashMap<>();
     }
 
-    public SimpleDirectedGraph(BinaryOperator<V> valueAdder, Set<Node> nodeSet, Map<Node, Map<Node, E>> adjacentMap) {
+    public SimpleDirectedGraph(BinaryOperator<V> valueAdder, Set<SimpleNode> nodeSet, Map<SimpleNode, Map<SimpleNode, E>> adjacentMap) {
         super(valueAdder);
         this.adjacentMap = adjacentMap;
         this.nodeSet = nodeSet;
@@ -34,12 +37,12 @@ public class SimpleDirectedGraph<V extends Number & Comparable<V>, E extends Dir
     }
 
     @Override
-    public Map<Node, Map<Node, E>> getAdjacentMap() {
+    public Map<SimpleNode, Map<SimpleNode, E>> getAdjacentMap() {
         return this.adjacentMap;
     }
 
     @Override
-    public Map<Node, E> getAdjacent(Node node) {
+    public Map<SimpleNode, E> getAdjacent(SimpleNode node) {
         return this.adjacentMap.get(node);
     }
 
@@ -49,7 +52,7 @@ public class SimpleDirectedGraph<V extends Number & Comparable<V>, E extends Dir
     }
 
     @Override
-    public Map<Node, E> getNeighboring(Node node) {
+    public Map<SimpleNode, E> getNeighboring(SimpleNode node) {
         return this.adjacentMap.get(node);
     }
 
@@ -69,8 +72,8 @@ public class SimpleDirectedGraph<V extends Number & Comparable<V>, E extends Dir
 
 
     public void addEdge(E edge) {
-        Node startNode = edge.getStartNode();
-        Node endNode = edge.getEndNode();
+        SimpleNode startNode = edge.getStartNode();
+        SimpleNode endNode = edge.getEndNode();
         if (startNode == null || endNode == null) {
             throw new RuntimeException("There is a null node!");
         }
