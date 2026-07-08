@@ -43,6 +43,33 @@ public class StatisticTool {
         return result;
     }
 
+    public static Map<String, Double> getWeightedStatisticMap(final List<Map<String, Double>> originalDataMapList, final List<Double> weightList) {
+        Map<String, Double> result = new HashMap<>();
+        Set<String> keySet = originalDataMapList.get(0).keySet();
+        Double tempResult;
+        for (String key : keySet) {
+            tempResult = 0D;
+            for (int i = 0; i < originalDataMapList.size(); i++) {
+                tempResult += weightList.get(i) * originalDataMapList.get(i).get(key);
+            }
+            result.put(key, tempResult);
+        }
+        return result;
+    }
+    public static List<Double> getWeightedStatisticList(final List<List<Double>> originalDataListList, final List<Double> weightList) {
+        List<Double> result = new ArrayList<>();
+        Double tempResult;
+        int size = originalDataListList.get(0).size();
+        for (int i = 0; i < size; i++) {
+            tempResult = 0D;
+            for (int j = 0; j < originalDataListList.size(); j++) {
+                tempResult += weightList.get(j) * originalDataListList.get(j).get(i);
+            }
+            result.add(tempResult);
+        }
+        return result;
+    }
+
 
     public static Double getKLDivergenceValue(Double valueA, Double valueB) {
         if (valueA <= 0.0) {
